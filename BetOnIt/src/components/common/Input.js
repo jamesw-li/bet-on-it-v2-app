@@ -27,6 +27,7 @@ const Input = ({
   return (
     <View style={[styles.container, style]}>
       {label && <Text style={styles.label}>{label}</Text>}
+      }
       <View style={[
         styles.inputContainer,
         isFocused && styles.inputContainerFocused,
@@ -61,6 +62,7 @@ const Input = ({
         )}
       </View>
       {error && <Text style={styles.errorText}>{error}</Text>}
+      }
     </View>
   );
 };
