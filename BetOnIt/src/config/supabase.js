@@ -1,13 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
-import Constants from 'expo-constants';
+import 'react-native-url-polyfill/auto'; // Essential for Supabase to work in React Native
 
-const supabaseUrl = Constants.expoConfig?.extra?.supabaseUrl || 'YOUR_SUPABASE_URL';
-const supabaseAnonKey = Constants.expoConfig?.extra?.supabaseAnonKey || 'YOUR_SUPABASE_ANON_KEY';
+// Read the environment variables injected by Bolt.new
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: false,
-  },
-});
+// Throw a clear error if the variables are missing
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error("CRITICAL ERROR: Supabase URL or Anon Key is not loaded. Check the Bolt.new integration.");
+}
+
+// Initialize and export the Supabase client
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
