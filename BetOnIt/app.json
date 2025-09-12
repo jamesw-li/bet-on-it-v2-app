@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "BetOnIt",
+    "name": "Bet On It",
     "slug": "BetOnIt",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -24,6 +24,13 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-font"
+    ],
+    "extra": {
+      "supabaseUrl": process.env.EXPO_PUBLIC_SUPABASE_URL,
+      "supabaseAnonKey": process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY
     }
   }
 }
