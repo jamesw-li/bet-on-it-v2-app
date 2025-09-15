@@ -1,14 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
-import 'react-native-url-polyfill/auto'; // Essential for Supabase to work in React Native
+import 'react-native-url-polyfill/auto';
 
-// Read the environment variables injected by Bolt.new
-const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
+// --- TEMPORARY DEBUGGING ---
+// Replace the placeholders below with your actual Supabase credentials.
+const supabaseUrl = "YOUR_SUPABASE_URL_HERE";
+const supabaseAnonKey = "YOUR_SUPABASE_ANON_KEY_HERE";
+// -------------------------
 
-// Throw a clear error if the variables are missing
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error("CRITICAL ERROR: Supabase URL or Anon Key is not loaded. Check the Bolt.new integration.");
+if (!supabaseUrl || supabaseUrl.includes("YOUR_SUPABASE_URL_HERE")) {
+  throw new Error("CRITICAL ERROR: Please replace the placeholder in src/config/supabase.js with your actual Supabase URL.");
 }
 
-// Initialize and export the Supabase client
+if (!supabaseAnonKey || supabaseAnonKey.includes("YOUR_SUPABASE_ANON_KEY_HERE")) {
+  throw new Error("CRITICAL ERROR: Please replace the placeholder in src/config/supabase.js with your actual Supabase Anon Key.");
+}
+
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
