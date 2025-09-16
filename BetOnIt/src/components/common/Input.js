@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Input;
+export default memo(Input);
