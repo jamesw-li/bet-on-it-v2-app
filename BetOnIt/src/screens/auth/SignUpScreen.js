@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { useAuth } from '../../contexts/AuthContext';
 import { createUserProfile } from '../../services/database';
 import Input from '../../components/common/Input';
