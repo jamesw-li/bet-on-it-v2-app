@@ -219,6 +219,9 @@ const styles = StyleSheet.create({
   signInButton: {
     marginBottom: 32,
   },
+  keyboardAvoidingContainer: {
+    flex: 1,
+  },
 });
 
 export default SignUpScreen;
