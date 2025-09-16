@@ -89,6 +89,10 @@ const SignUpScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.keyboardAvoidingContainer}
+    >
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <Text style={styles.title}>Create Account</Text>
@@ -168,6 +172,7 @@ const SignUpScreen = ({ navigation }) => {
           />
         </View>
       </ScrollView>
+    </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
