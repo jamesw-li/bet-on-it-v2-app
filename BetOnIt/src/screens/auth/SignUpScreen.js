@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, Alert } from 'react-native';
 import { useAuth } from '../../contexts/AuthContext';
 import { createUserProfile } from '../../services/database';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
 
 const SignUpScreen = ({ navigation }) => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    fullName: '',
-    username: '',
-    paymentInfo: '',
-  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [username, setUsername] = useState('');
+  const [paymentInfo, setPaymentInfo] = useState('');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -22,27 +20,27 @@ const SignUpScreen = ({ navigation }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.email) {
+    if (!email) {
       newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = 'Email is invalid';
     }
 
-    if (!formData.password) {
+    if (!password) {
       newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
+    } else if (.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
 
-    if (formData.password !== formData.confirmPassword) {
+    if (password !== confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
 
-    if (!formData.fullName) {
+    if (!fullName) {
       newErrors.fullName = 'Full name is required';
     }
 
-    if (!formData.username) {
+    if (!username) {
       newErrors.username = 'Username is required';
     }
 
@@ -55,10 +53,10 @@ const SignUpScreen = ({ navigation }) => {
 
     setLoading(true);
     try {
-      const { data, error } = await signUp(formData.email, formData.password, {
-        full_name: formData.fullName,
-        username: formData.username,
-        payment_info: formData.paymentInfo,
+      const { data, error } = await signUp(email, password, {
+        full_name: fullName,
+        username: username,
+        payment_info: paymentInfo,
       });
 
       if (error) {
@@ -66,9 +64,9 @@ const SignUpScreen = ({ navigation }) => {
       } else if (data.user) {
         // Create user profile
         await createUserProfile(data.user.id, {
-          username: formData.username,
-          full_name: formData.fullName,
-          payment_info: formData.paymentInfo,
+          username: username,
+          full_name: fullName,
+          payment_info: paymentInfo,
         });
         
         Alert.alert('Success', 'Account created successfully!');
@@ -80,19 +78,8 @@ const SignUpScreen = ({ navigation }) => {
     }
   };
 
-  const updateFormData = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: null }));
-    }
-  };
-
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.keyboardAvoidingContainer}
-    >
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <Text style={styles.title}>Create Account</Text>
@@ -102,55 +89,39 @@ const SignUpScreen = ({ navigation }) => {
         <View style={styles.form}>
           <Input
             label="Full Name"
-            value={formData.fullName}
-            onChangeText={(value) => updateFormData('fullName', value)}
-            placeholder="Enter your full name"
-            error={errors.fullName}
-            autoCapitalize="words"
+            value={fullName}
+            onChangeText={setFullName}
+            // ...
           />
-
           <Input
             label="Username"
-            value={formData.username}
-            onChangeText={(value) => updateFormData('username', value)}
-            placeholder="Choose a username"
-            error={errors.username}
-            autoCapitalize="none"
+            value={username}
+            onChangeText={setUsername}
+            // ...
           />
-
           <Input
             label="Email"
-            value={formData.email}
-            onChangeText={(value) => updateFormData('email', value)}
-            placeholder="Enter your email"
-            error={errors.email}
-            keyboardType="email-address"
-            autoCapitalize="none"
+            value={email}
+            onChangeText={setEmail}
+            // ...
           />
-
           <Input
             label="Password"
-            value={formData.password}
-            onChangeText={(value) => updateFormData('password', value)}
-            placeholder="Create a password"
-            error={errors.password}
-            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+            // ...
           />
-
           <Input
             label="Confirm Password"
-            value={formData.confirmPassword}
-            onChangeText={(value) => updateFormData('confirmPassword', value)}
-            placeholder="Confirm your password"
-            error={errors.confirmPassword}
-            secureTextEntry
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            // ...
           />
-
           <Input
             label="Payment Info (Optional)"
-            value={formData.paymentInfo}
-            onChangeText={(value) => updateFormData('paymentInfo', value)}
-            placeholder="Venmo username, PayPal email, etc."
+            value={paymentInfo}
+            onChangeText={setPaymentInfo}
+            // ...
           />
 
           <Text style={styles.disclaimer}>
@@ -172,7 +143,6 @@ const SignUpScreen = ({ navigation }) => {
           />
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -218,9 +188,6 @@ const styles = StyleSheet.create({
   },
   signInButton: {
     marginBottom: 32,
-  },
-  keyboardAvoidingContainer: {
-    flex: 1,
   },
 });
 
